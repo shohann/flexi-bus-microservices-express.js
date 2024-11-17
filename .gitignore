@@ -1,0 +1,25 @@
+# Dependencies
+node_modules
+dist/
+
+uploads/
+
+.env
+
+# Logs
+logs
+*.log
+
+
+
+
+
+
+
+
+
+
+
+
+
+
