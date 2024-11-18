@@ -1,24 +1,24 @@
-import express, { Application, Request, Response } from 'express';
-import logger from './utils/log/logger';
-// import domainRoutes from './routes';
+import express, { Application, Request, Response } from "express";
+import logger from "./utils/log/logger";
+import domainRoutes from "./routes";
 
 function defineRoutes(expressApp: Application) {
-  logger.info('Defining routes...');
+  logger.info("Defining routes...");
   const router = express.Router();
 
-  // domainRoutes(router);
+  domainRoutes(router);
 
-  expressApp.use('/api/v1', router);
+  expressApp.use("/api/v1", router);
   // Health check
-  expressApp.get('/health', (req: Request, res: Response) => {
-    res.status(200).send('OK');
+  expressApp.get("/health", (req: Request, res: Response) => {
+    res.status(200).send("OK");
   });
 
   // 404
   expressApp.use((req, res) => {
-    res.status(404).send('Not Found');
+    res.status(404).send("Not Found");
   });
-  logger.info('Routes defined');
+  logger.info("Routes defined");
 }
 
 export default defineRoutes;
