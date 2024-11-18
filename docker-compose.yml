@@ -1,0 +1,9 @@
+services:
+  bus_db:
+    image: postgres:16.2
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=bus_db_user
+      - POSTGRES_DB=bus_db
+    ports:
+      - 5430:5432
