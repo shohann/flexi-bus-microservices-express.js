@@ -1,0 +1,28 @@
+// id, bus_id, departure_time, arrival_time, route, price, discount, boarding_points, dropping_point
+
+model Trip {
+    id             Int      @id @default(autoincrement())
+    departure_time DateTime
+    arrival_time   DateTime
+    route          String
+    price          Float
+    discount       Float
+    bus_id         Int
+    bus            Bus      @relation(fields: [bus_id], references: [id])
+    estimated_time DateTime
+
+    start_city_id Int
+    start_city    City @relation("StartCity", fields: [start_city_id], references: [id])
+
+    end_city_id Int
+    end_city    City @relation("EndCity", fields: [end_city_id], references: [id])
+
+    boarding_points TripStop[] @relation("BoardingTrip")
+
+    dropping_point_id Int
+    dropping_point    TripStop @relation("DroppingTrip", fields: [dropping_point_id], references: [id])
+
+    // Possible indexes for performance optimization
+    // @@index([start_city_id], name: "start_city_idx")
+    // @@index([end_city_id], name: "end_city_idx")
+}

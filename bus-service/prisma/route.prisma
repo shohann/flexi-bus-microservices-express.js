@@ -1,0 +1,34 @@
+model BusStop {
+    id       Int        @id @default(autoincrement())
+    name     String
+    lat      Float
+    long     Float
+    tripStop TripStop[]
+}
+
+model TripStop {
+    id                Int      @id @default(autoincrement())
+    stop_id           Int
+    time              DateTime // Based on this we will sort it
+    stop_order        Int? // Order of this stop in the trip route
+    stop_type         StopType
+    stop              BusStop  @relation(fields: [stop_id], references: [id])
+    droppping_trip_id Int
+    dropping_trip     Trip[]   @relation("DroppingTrip")
+    boarding_trip_id  Int
+    boarding_trip     Trip     @relation("BoardingTrip", fields: [boarding_trip_id], references: [id])
+}
+
+model City {
+    id        Int    @id @default(autoincrement())
+    name      String
+    lat       Float
+    long      Float
+    tripsFrom Trip[] @relation("StartCity")
+    tripsTo   Trip[] @relation("EndCity")
+}
+
+enum StopType {
+    BOARDING
+    DROPPING
+}

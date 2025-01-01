@@ -1,0 +1,27 @@
+model Bus {
+    id              Int         @id @default(autoincrement())
+    bus_type        String
+    bus_model       BusType     @default(NON_AC)
+    bus_number      String
+    bus_operator    BusOperator @relation(fields: [bus_operator_id], references: [id])
+    bus_operator_id Int
+    seats           Seat[]
+    trips           Trip[]
+}
+
+model Seat {
+    id          Int @id @default(autoincrement())
+    seat_number Int
+    seat_col    Int
+    seat_row    Int
+    total_col   Int
+    total_row   Int
+    bus_id      Int
+    bus         Bus @relation(fields: [bus_id], references: [id])
+    // is_booked: boolean Example: 38 Seat(s) Available (To check weather the seat allocated for a particular trip)
+}
+
+enum BusType {
+    AC
+    NON_AC
+}

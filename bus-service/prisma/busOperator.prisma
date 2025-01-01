@@ -1,0 +1,8 @@
+model BusOperator {
+    id    Int     @id @default(autoincrement())
+    name  String  @unique
+    logo  String?
+    buses Bus[]
+    // trips Trip[]
+    // has many bus
+}
