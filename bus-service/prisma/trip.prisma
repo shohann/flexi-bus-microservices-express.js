@@ -17,12 +17,9 @@ model Trip {
     end_city_id Int
     end_city    City @relation("EndCity", fields: [end_city_id], references: [id])
 
-    boarding_points TripStop[] @relation("BoardingTrip")
-
-    dropping_point_id Int
-    dropping_point    TripStop @relation("DroppingTrip", fields: [dropping_point_id], references: [id])
-
     // Possible indexes for performance optimization
     // @@index([start_city_id], name: "start_city_idx")
     // @@index([end_city_id], name: "end_city_idx")
+    trip_stop    TripStop? @relation(fields: [trip_stop_id], references: [id])
+    trip_stop_id Int?
 }

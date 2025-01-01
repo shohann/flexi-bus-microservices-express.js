@@ -7,16 +7,13 @@ model BusStop {
 }
 
 model TripStop {
-    id                Int      @id @default(autoincrement())
-    stop_id           Int
-    time              DateTime // Based on this we will sort it
-    stop_order        Int? // Order of this stop in the trip route
-    stop_type         StopType
-    stop              BusStop  @relation(fields: [stop_id], references: [id])
-    droppping_trip_id Int
-    dropping_trip     Trip[]   @relation("DroppingTrip")
-    boarding_trip_id  Int
-    boarding_trip     Trip     @relation("BoardingTrip", fields: [boarding_trip_id], references: [id])
+    id         Int      @id @default(autoincrement())
+    stop_id    Int
+    time       DateTime // Based on this we will sort it
+    stop_order Int? // Order of this stop in the trip route
+    stop_type  StopType
+    stop       BusStop  @relation(fields: [stop_id], references: [id])
+    trip       Trip[]
 }
 
 model City {
