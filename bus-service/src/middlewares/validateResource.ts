@@ -1,5 +1,5 @@
-import { Request, Response, NextFunction } from 'express';
-import { AnyZodObject, z } from 'zod';
+import { Request, Response, NextFunction } from "express";
+import { AnyZodObject, z } from "zod";
 
 export const validateAndParse =
   (schema: AnyZodObject) =>
@@ -15,7 +15,7 @@ export const validateAndParse =
     } catch (error) {
       if (error instanceof z.ZodError) {
         return res.status(400).json({
-          message: 'Validation failed',
+          message: "Validation failed",
           errors: error.errors,
         });
       }
@@ -39,7 +39,7 @@ export const validateParams =
 
 const validate =
   (schema: AnyZodObject) =>
-  (req: Request, res: Response, next: NextFunction) => {
+  async (req: Request, res: Response, next: NextFunction) => {
     try {
       schema.parse({
         body: req.body,
@@ -49,7 +49,8 @@ const validate =
 
       next();
     } catch (e: any) {
-      return res.status(400).send(e.errors); // TODO: Global error handler needs to be called
+      res.status(400).send(e.errors); // TODO: Global error handler needs to be called
+      // return res.status(400).send(e.errors);
     }
   };
 
