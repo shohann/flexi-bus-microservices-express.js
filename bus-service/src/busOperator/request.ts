@@ -17,3 +17,18 @@ export const validateCreateBusOperator = z.object({
 export type CreateBusOperator = z.infer<
   typeof validateCreateBusOperator
 >["body"];
+
+export const validateUpdateBusOperator = z.object({
+  body: object({
+    name: z
+      .string()
+      .min(8, { message: "Content must be at least 8 characters long" })
+      .max(100, { message: "Content must be 100 characters or less" })
+      .optional(),
+    logo: z
+      .string()
+      .min(8, { message: "Content must be at least 8 characters long" })
+      .max(100, { message: "Content must be 100 characters or less" })
+      .optional(),
+  }),
+});
