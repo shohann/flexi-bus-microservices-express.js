@@ -1,12 +1,13 @@
 model Bus {
     id              Int         @id @default(autoincrement())
-    bus_type        String
-    bus_model       BusType     @default(NON_AC)
+    bus_type        BusType     @default(NON_AC)
+    bus_model       String
     bus_number      String
     bus_operator    BusOperator @relation(fields: [bus_operator_id], references: [id])
     bus_operator_id Int
     seats           Seat[]
     trips           Trip[]
+    status          Boolean     @default(false)
 }
 
 model Seat {
