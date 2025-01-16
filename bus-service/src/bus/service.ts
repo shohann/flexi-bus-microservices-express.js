@@ -5,6 +5,9 @@ import {
   ListBusDTO,
   ListBusResDTO,
   UpdateBusDTO,
+  Seat,
+  SeatResDTO,
+  SeatReqDTO,
 } from "./type";
 import { AppError } from "../utils/error-handling/AppError";
 import { HTTP_ERRORS } from "../utils/error-handling/error-codes";
@@ -33,7 +36,44 @@ export const createBus = async (data: CreateBusReqDTO) => {
     },
   });
 
+  await prisma.seat.createMany({
+    data: data.seats.map((seat) => ({
+      bus_id: busOperators.id,
+      seat_number: seat.seatNumber,
+      seat_col: seat.seatCol,
+      seat_row: seat.seatRow,
+    })),
+  });
+
   return busOperators;
+};
+
+export const updateSeatById = async (data: SeatReqDTO) => {
+  const validSeat = await prisma.seat.findUnique({
+    where: {
+      id: data.id,
+      bus_id: data.busId,
+    },
+  });
+
+  if (!validSeat) {
+    throw new AppError(
+      HTTP_ERRORS.NotFound.name,
+      `Seat with id ${data.id} not found`,
+      HTTP_ERRORS.NotFound.code
+    );
+  }
+
+  await prisma.seat.update({
+    where: {
+      id: data.id,
+    },
+    data: {
+      seat_number: data.seatNumber,
+      seat_col: data.seatCol,
+      seat_row: data.seatRow,
+    },
+  });
 };
 
 export const disableBus = async (id: number) => {
@@ -103,6 +143,7 @@ export const getBus = async (id: number): Promise<GetBusResDTO> => {
       bus_number: true,
       bus_operator_id: true,
       status: true,
+      seats: true,
     },
   });
 
@@ -121,6 +162,7 @@ export const getBus = async (id: number): Promise<GetBusResDTO> => {
     busNumber: bus.bus_number,
     busOperatorId: bus.bus_operator_id,
     status: bus.status,
+    seats: bus.seats,
   };
 
   return camelCaseBus;

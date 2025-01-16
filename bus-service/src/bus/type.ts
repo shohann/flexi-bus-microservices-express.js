@@ -1,11 +1,33 @@
 import { Pagination } from "../utils/response";
 import { BusType } from "@prisma/client";
 
+export interface Seat {
+  seatNumber: string;
+  seatCol: number;
+  seatRow: number;
+}
+
+export interface SeatReqDTO {
+  id: number;
+  busId: number;
+  seatNumber: string;
+  seatCol: number;
+  seatRow: number;
+}
+
+export interface SeatResDTO {
+  id: number;
+  seatNumber: string;
+  seatCol: number;
+  seatRow: number;
+}
+
 export interface CreateBusReqDTO {
   busType: BusType;
   busNumber: string;
   busOperatorId: number;
   busModel: string;
+  seats: Seat[];
 }
 
 export interface CreateBusResDTO {

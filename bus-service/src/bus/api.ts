@@ -1,7 +1,7 @@
 import express, { Request, Response, NextFunction } from "express";
 import * as service from "./service";
 import validate, { validateParams } from "../middlewares/validateResource";
-import { CreateBus, validateCreateBus } from "./request";
+import { CreateBus, validateCreateBus, seatSchema } from "./request";
 import ApiResponse from "../utils/response";
 import logger from "../utils/log/logger";
 
@@ -25,6 +25,7 @@ const routes = () => {
           busNumber: req.body.busNumber,
           busOperatorId: req.body.busOperatorId,
           busType: req.body.busType,
+          seats: req.body.seats,
         });
 
         const apiResponse = new ApiResponse(
@@ -37,6 +38,31 @@ const routes = () => {
       } catch (error: any) {
         next(error);
       }
+    }
+  );
+
+  router.put(
+    "/:id/seats/:seatId",
+    validate(seatSchema),
+    async (req: Request, res: Response, next: NextFunction) => {
+      const busId = parseInt(req.params.id);
+      const seatId = parseInt(req.params.seatId);
+
+      await service.updateSeatById({
+        id: seatId,
+        busId,
+        seatCol: req.body.seatCol,
+        seatNumber: req.body.seatNumber,
+        seatRow: req.body.seatRow,
+      });
+
+      const apiResponse = new ApiResponse(
+        200,
+        null,
+        "Seat updated successfully"
+      );
+
+      res.status(apiResponse.statusCode).json(apiResponse);
     }
   );
 

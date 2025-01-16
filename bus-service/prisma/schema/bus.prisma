@@ -11,16 +11,15 @@ model Bus {
 }
 
 model Seat {
-    id          Int @id @default(autoincrement())
-    seat_number Int
+    id          Int    @id @default(autoincrement())
+    seat_number String
     seat_col    Int
     seat_row    Int
-    total_col   Int
-    total_row   Int
     bus_id      Int
-    bus         Bus @relation(fields: [bus_id], references: [id])
-    // is_booked: boolean Example: 38 Seat(s) Available (To check weather the seat allocated for a particular trip)
+    bus         Bus    @relation(fields: [bus_id], references: [id])
 }
+
+// is_booked: boolean Example: 38 Seat(s) Available (To check weather the seat allocated for a particular trip)
 
 enum BusType {
     AC
