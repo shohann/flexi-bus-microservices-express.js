@@ -10,7 +10,7 @@ function defineRoutes(expressApp: Application) {
 
   expressApp.use("/api/v1", router);
   // Health check
-  expressApp.get("/health", (req: Request, res: Response) => {
+  expressApp.get("/api/v1/health", (req: Request, res: Response) => {
     res.status(200).send("OK");
   });
 
